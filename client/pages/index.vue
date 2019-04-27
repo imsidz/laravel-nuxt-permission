@@ -1,37 +1,31 @@
 <template>
   <section class="container">
     <div>
-      <logo />
       <h1 class="title">
-        permission
+        iMsIdZz
       </h1>
-      <h2 class="subtitle">
-        laravel with nuxt RestFull api permission and role base application
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
+      <div v-if="$auth.loggedIn">
+        <div v-if="$auth.user.roles.includes('admin')">
+          <nuxt-link :to="'/admin'"> Go to admin page </nuxt-link>
+        </div>
       </div>
+      <div v-if="!$auth.loggedIn">
+        <nuxt-link to="/login">Login </nuxt-link>
+      </div>
+      <h2 class="subtitle">
+        Laravel Nuxt Permission & Role base application
+      </h2>
+      
     </div>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
 
 export default {
-  components: {
-    Logo
-  }
+  
 }
+
 </script>
 
 <style>

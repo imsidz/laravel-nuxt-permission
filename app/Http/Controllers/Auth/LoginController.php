@@ -2,38 +2,40 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Resources\UserResource;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    public function login(Request $request){
 
-    use AuthenticatesUsers;
+    	
+    	$this->validate($request, [
+    		'email' => 'email|required',
+    		'password' => 'string|required',
+    	]);
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    	$token = auth()->attempt($request->only(['email', 'password']));
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+    	if (!$token) {
+    		return response()->json([
+    			'errors' => [
+    				'email' => [
+    					'Your Credential not matched in our records'
+    				],
+                    'password' => [
+                        'Your Credential not matched in our records'
+                    ]
+    			]
+    		], 422);
+    	}
+
+    	return (new UserResource($request->user()))
+		->additional([
+			'meta' => [
+				'token' => $token
+			]
+		]);
     }
 }

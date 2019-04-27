@@ -10,8 +10,7 @@ export default {
     title: pkg.name,
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -33,20 +32,44 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    
   ],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/auth',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    '@nuxtjs/axios'
+    
   ],
   /*
   ** Axios module configuration
   */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'http://permission.test/api/',
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/login', method: 'post', propertyName: 'meta.token' },
+          logout: { url: '/auth/logout', method: 'post' },
+          user: { url: '/auth/me', method: 'get', propertyName: 'data' }
+        },
+        // tokenRequired: true,
+        // tokenType: 'bearer',
+      }
+    },
+
+    redirect: {
+      login: '/login',
+      logout: '/login',
+    },
+    plugins: [
+      '~/plugins/auth'
+    ]
   },
 
   /*
