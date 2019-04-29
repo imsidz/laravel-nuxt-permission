@@ -15,8 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = Auth::user();
-        $roles = $user->roles;
+        $roles = $this->roles;
         if ($roles) {
             foreach ($roles as $role) {
                 $permissions = $role->permissions;
