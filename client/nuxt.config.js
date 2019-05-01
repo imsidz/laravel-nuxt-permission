@@ -32,7 +32,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    
+    { src: '~/plugins/select', ssr: true },
+    { src: '~/plugins/notification', ssr: false }
   ],
 
   /*

@@ -15,24 +15,13 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        $roles = $this->roles;
-        if ($roles) {
-            foreach ($roles as $role) {
-                $permissions = $role->permissions;
-            }
-            if (!isset($permissions)) {
-                $permissions = [];
-            }else{
-                $permissions = $permissions->pluck('name');
-            }
             return [
                 'id' => $this->id,
                 'name' => $this->name,
                 'email' => $this->email,
                 'roles' => $this->roles->pluck('name'),
-                'permissions' => $permissions,
+                'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
                 'image' => \Gravatar::src($this->email, 200)
             ];
-        }
     }
 }

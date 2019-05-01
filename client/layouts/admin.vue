@@ -6,9 +6,9 @@
 
   <!-- Main content -->
   <div class="main-content">
-    <no-ssr>
-      <notifications position="top right" group="sucess" classes="vue-notification success"/>
-    </no-ssr>
+  <no-ssr>
+    <notifications position="top right" group="error" classes="vue-notification error"/>
+  </no-ssr>
     <!-- Top navbar -->
     <topbar />
     <!-- Header -->

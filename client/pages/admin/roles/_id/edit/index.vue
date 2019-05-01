@@ -14,23 +14,16 @@
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label>Name</label>
-									<input type="text" class="form-control" v-model="user.name">
+									<input type="text" class="form-control" v-model="role.name">
 									<span class="alert-danger"></span>
 								</div>
-
-								<div class="form-group col-md-12">
-									<label>Email</label>
-									<input type="text" class="form-control" v-model="user.email">
-									<span class="alert-danger"></span>
-								</div>
-
 								<div class="form-group col-md-12">
 									<label>Roles</label>
-									<v-select v-model="user.roles" multiple taggable :options="roles"></v-select>
+									<v-select v-model="role.permissionName" multiple :options="permissions"></v-select>
 									<span class="alert-danger"></span>
 								</div>
 							</div>
-							<button class="btn btn-info" @click.prevent="submit">Submit</button>
+							<button class="btn btn-info" @click.prevent="submit">Update</button>
 						</form>
 					</div>
 				</div>
@@ -42,19 +35,18 @@
 import Swal from 'sweetalert2'
 	export default {
 		layout: 'admin',
-		middleware: 'edit-users',
+		middleware: 'edit-role',
 		async asyncData({ $axios, params }) {
-		  const user = await $axios.$get(`/user/ ${params.id}`)
-			const roles = await $axios.$get(`/allRoleNames`)
-		  return { user: user.data, roles: roles.data }
+		    const role = await $axios.$get(`/role/${params.id}`)
+		    const permissions = await $axios.$get(`/permissions`)
+		    return { role: role.data, permissions: permissions.data }
 		},
 
 		methods: {
 			submit() {
-				this.$axios.post(`/user/${this.user.id}`, {
-					name: this.user.name,
-					email: this.user.email,
-					roles: this.user.roles
+				this.$axios.post(`/role/${this.role.id}`, {
+					name: this.role.name,
+					permissions: this.role.permissionName
 				})
 				.then((response) => {
 					console.log('saved')
@@ -72,10 +64,19 @@ import Swal from 'sweetalert2'
 										}
 								}).then((result) => {
 
-										this.$router.push('/admin/users');
+									this.$router.push('/admin/roles');
 
 								})
 						}
+				})
+				.catch((res) => {
+					this.$notify({
+						group: 'error',
+						title: 'Important message',
+						text: res.response.data.errors.message
+					});
+					
+					this.$store.dispatch('validation/setErrors', res.response.data.errors)
 				})
 			},
 		}

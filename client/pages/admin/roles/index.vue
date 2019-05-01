@@ -5,16 +5,17 @@
 	            <div class="card-header border-0">
 	              <div class="row align-items-center">
 	                <div class="col">
-	                  <h3 class="mb-0">Page visits</h3>
+	                  <h3 class="mb-0">Roles</h3>
 	                </div>
 	                <div class="col text-right">
+										<nuxt-link to="/admin/roles/create" class="btn btn-info btn-sm"> Add Roles </nuxt-link>
 	                	<form class="form-inline float-right">
 	                		<div class="input-group">
-							  <input type="text" class="form-control form-control-sm" placeholder="Search">
-							  <div class="input-group-append">
-							    <button class="btn btn-success btn-sm" type="submit">Search</button> 
-							  </div>
-							</div>
+										<input type="text" class="form-control form-control-sm" placeholder="Search">
+										<div class="input-group-append">
+											<button class="btn btn-success btn-sm" type="submit">Search</button> 
+										</div>
+									</div>
 	                	</form>
 	                </div> 
 	              </div>
@@ -42,18 +43,14 @@
 	                   
 	                    <td class="">
 							
-								<ul class="d-inline-flex list-unstyled">
-									<li v-for="permission in role.permissions"><span class="badge badge-primary bg-primary rounded text-white mr-1"> {{ permission.name }} </span></li>
-									<li v-for="permission in role.permissions"><span class="badge badge-primary bg-primary rounded text-white mr-1"> {{ permission.name }} </span></li>
-									<li v-for="permission in role.permissions"><span class="badge badge-primary bg-primary rounded text-white mr-1"> {{ permission.name }} </span></li>
-									<li v-for="permission in role.permissions"><span class="badge badge-primary bg-primary rounded text-white mr-1"> {{ permission.name }} </span></li>
-									<li v-for="permission in role.permissions"><span class="badge badge-primary bg-primary rounded text-white mr-1"> {{ permission.name }} </span></li>
-								</ul>
+											<ul class="d-inline-flex list-unstyled">
+												<li v-for="permission in role.permissions"><span class="badge badge-primary bg-primary rounded text-white mr-1"> {{ permission.name }} </span></li>
+											</ul>
 								                    	
 	                    </td>
 	                    
 	                    <td>
-	                      <nuxt-link :to="'/admin/users/' + role.id + '/edit'" class="btn btn-warning">Edit</nuxt-link>
+	                      <nuxt-link :to="'/admin/roles/' + role.id + '/edit'" class="btn btn-warning">Edit</nuxt-link>
 	                    </td>
 	                    <td>
 	                    	<button class="btn btn-danger" @click.prevent="deleteBlog(role.id, index)">Delete</button>
@@ -64,7 +61,7 @@
 	              </table>
 	            </div>
 	          </div>
-		</div>
+				</div>
       </div>
 </template>
 

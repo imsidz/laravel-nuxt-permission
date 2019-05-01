@@ -13,4 +13,20 @@ class UserController extends Controller
 
     	return UserResource::collection($users);
     }
+
+    public function getUser($id){
+        $user = User::find($id);
+        
+        return new UserResource($user);
+    }
+
+    public function editUser($id, Request $request) {
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+        $user->syncRoles($request->roles);
+
+        return response()->json(['message' => 'User Saved Success']);
+    }
 }

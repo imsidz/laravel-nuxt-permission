@@ -1,6 +1,6 @@
 export default function ({ store, redirect, route, history }) {
 	if (store.state.auth.loggedIn) {
-		if (!store.state.auth.user.permissions.includes('edit user')) {
+		if (!store.state.auth.user.permissions.includes('edit role')) {
 
 		    return redirect('/')
 		    // window.history.go(-1)

@@ -15,4 +15,47 @@ class RoleController extends Controller
 
     	return RoleResource::collection($roles);
     }
+
+    public function getAllRoleName(){
+        $roles = Role::latest()->get()->pluck('name');
+
+        return response()->json(['data' => $roles]);
+    }
+
+    public function getRole($id){
+        $role = Role::find($id);
+        return new RoleResource($role);
+    }
+
+    public function editRole($id, Request $request) {
+        $role = Role::find($id);
+
+        if($role->name == 'admin'){
+            return response()->json(['errors' => [
+                'message' => 'You can\'t edit this role'
+            ]], 422);
+            
+        }else {
+            $role->name = $request->name;
+
+            $role->save();
+    
+            $role->syncPermissions($request->permissions);
+    
+            return response()->json(['message' => 'Role Updated Success']);
+        }
+        
+    }
+
+    public function postRole (Request $request) {
+            $role = new Role;    
+            
+            $role->name = $request->name;
+
+            $role->save();
+    
+            $role->syncPermissions($request->permissions);
+    
+            return response()->json(['message' => 'Role Updated Success']);
+    }
 }
